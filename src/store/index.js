@@ -1,7 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import reducer from "store/slices";
 import { basePersistentApi } from "./baseApi";
-import rootReducer from "store/slices";
 
 const store = configureStore({
   reducer,

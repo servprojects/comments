@@ -6,13 +6,24 @@ import Header from "components/Header";
 import CommentModal from "components/CommentModal";
 import CommentList from "./CommmentList";
 import withLayout from "components/Layouts/withLayout";
+import TopCommentorList from "./TopCommentorList";
+import Grid from "@material-ui/core/Grid";
 
 function App() {
   return (
     <>
-      {/* <Header /> */}
       <CommentModal />
-      <CommentList />
+      <Grid item xs={12}>
+        <Grid container spacing={2}>
+          <Grid item>
+            <TopCommentorList />
+          </Grid>
+
+          <Grid item>
+            <CommentList />
+          </Grid>
+        </Grid>
+      </Grid>
     </>
   );
 }

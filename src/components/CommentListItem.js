@@ -29,14 +29,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function CommentListItem({ name, message }) {
+function CommentListItem({ name, message, avatarColor = "purple" }) {
   const classes = useStyles();
   const initials = useInitials(name ?? "");
 
   return (
     <ListItem alignItems="flex-start">
       <ListItemAvatar>
-        <Avatar className={classes.purple}>{initials}</Avatar>
+        <Avatar className={classes[avatarColor]}>{initials}</Avatar>
       </ListItemAvatar>
       <ListItemText
         primary={
@@ -44,7 +44,7 @@ function CommentListItem({ name, message }) {
             <span className={classes.name}>{name}</span>
           </React.Fragment>
         }
-        secondary={<React.Fragment>{message}</React.Fragment>}
+        secondary={message ? <React.Fragment>{message}</React.Fragment> : <></>}
       />
     </ListItem>
   );
