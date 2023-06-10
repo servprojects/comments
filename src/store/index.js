@@ -1,9 +1,25 @@
 import { configureStore } from "@reduxjs/toolkit";
-
 import reducer from "store/slices";
+import { basePersistentApi } from "./baseApi";
+import rootReducer from "store/slices";
 
 const store = configureStore({
   reducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActionPaths: [
+          "payload.proceedCallback",
+          "payload.cancelCallback",
+          "payload",
+        ],
+        ignoredPaths: [
+          "processModal.proceedCallback",
+          "processModal.cancelCallback",
+          "basePersistentApi",
+        ],
+      },
+    }).concat(basePersistentApi.middleware),
 });
 
 if (module.hot) {

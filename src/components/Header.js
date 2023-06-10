@@ -12,9 +12,16 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
-
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+  },
   title: {
     flexGrow: 1,
+  },
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(3),
+    marginTop: theme.spacing(8),
   },
 }));
 
