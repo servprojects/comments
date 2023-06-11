@@ -9,8 +9,9 @@ import {
   DialogContentText,
   DialogTitle,
   Button,
+  Modal,
 } from "@material-ui/core";
-
+import { useForm } from "react-hook-form";
 import {
   closeCommentsModal,
   getViewCommentsModalOpen,
@@ -30,6 +31,14 @@ const CommentModal = () => {
   const isOpen = useSelector(getViewCommentsModalOpen);
   const handleClose = () => dispatch(closeCommentsModal());
 
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+  const onSubmit = (data) => console.log(data);
+
   return (
     // <Modal
     //   open={isOpen}
@@ -43,32 +52,38 @@ const CommentModal = () => {
 
     <Dialog open={isOpen} onClose={handleClose}>
       <DialogTitle>Add New Comment</DialogTitle>
-      <DialogContent>
-        <DialogContentText>
-          To test top commenters, input comments with existing commenter name.
-        </DialogContentText>
-        <TextField
-          autoFocus
-          margin="dense"
-          id="name"
-          label="Name"
-          type="text"
-          fullWidth
-          variant="standard"
-        />
-        <TextField
-          id="filled-multiline-static"
-          label="Message"
-          multiline
-          rows={4}
-          fullWidth
-          variant="standard"
-        />
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose}>Cancel</Button>
-        <Button onClick={handleClose}>Comment</Button>
-      </DialogActions>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <DialogContent>
+          <DialogContentText>
+            To test top commenters, input comments with existing commenter name.
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Name"
+            type="text"
+            fullWidth
+            variant="standard"
+            {...register("name")}
+          />
+          <TextField
+            id="filled-multiline-static"
+            label="Message"
+            multiline
+            rows={4}
+            fullWidth
+            variant="standard"
+            {...register("message")}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button type="submit" onClick={handleClose}>
+            Comment
+          </Button>
+        </DialogActions>
+      </form>
     </Dialog>
   );
 };
