@@ -6,7 +6,7 @@ import { useGetCommentsQuery } from "store/services/commentApi";
 import { blueGrey } from "@material-ui/core/colors";
 import LoadingComponent from "components/LoadingComponent";
 import { useSelector } from "react-redux";
-import { getLatestComment, getViewTopCommentors } from "store/slices/comment";
+import { getLatestComment } from "store/slices/comment";
 
 const useStyles = makeStyles((theme) => ({
   root: {
