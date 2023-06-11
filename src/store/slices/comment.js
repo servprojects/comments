@@ -3,6 +3,8 @@ import { createSlice, createSelector } from "@reduxjs/toolkit";
 export const name = "comment";
 const initialState = {
   topCommentors: [],
+  comments: [],
+  newComment: {},
 };
 
 const commentSlice = createSlice({
@@ -11,6 +13,20 @@ const commentSlice = createSlice({
   reducers: {
     getTopCommentors(state, action) {
       var topthree = getTopCommentersProcess(action.payload.comments);
+      state.topCommentors = topthree;
+    },
+    initializeComments(state, action) {
+      state.comments = action.payload.comments;
+    },
+    addComment(state, action) {
+      var newComment = action.payload.comment;
+      var allComments = state.comments;
+      allComments.push(newComment);
+
+      var topthree = getTopCommentersProcess(allComments);
+
+      state.newComment = newComment;
+      state.comments = allComments;
       state.topCommentors = topthree;
     },
   },
@@ -23,7 +39,26 @@ export const getViewTopCommentors = createSelector(
   (slice) => slice.topCommentors
 );
 
-export const { getTopCommentors } = commentSlice.actions;
+export const getViewComments = createSelector(
+  getSlice,
+  (slice) => slice.comments
+);
+
+export const getCountComments = createSelector(
+  getSlice,
+  (slice) => slice.comments.length
+);
+
+export const getLatestComment = createSelector(
+  getSlice,
+  (slice) => slice.newComment
+);
+
+export const {
+  getTopCommentors,
+  initializeComments,
+  addComment,
+} = commentSlice.actions;
 export default commentSlice.reducer;
 
 function getTopCommentersProcess(comments) {

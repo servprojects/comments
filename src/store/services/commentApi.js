@@ -1,4 +1,4 @@
-import { getTopCommentors } from "store/slices/comment";
+import { getTopCommentors, initializeComments } from "store/slices/comment";
 import { basePersistentApi } from "../baseApi";
 
 export const commentApi = basePersistentApi.injectEndpoints({
@@ -18,6 +18,7 @@ export const commentApi = basePersistentApi.injectEndpoints({
           const { data } = await queryFulfilled;
           var cutComments = restructureComments(data.data);
           dispatch(getTopCommentors({ comments: cutComments }));
+          dispatch(initializeComments({ comments: cutComments }));
         } catch (error) {}
       },
     }),
@@ -38,6 +39,8 @@ function restructureComments(data) {
         message: comment.body,
       };
     });
+
+    cutComments.sort((a, b) => b.id - a.id);
     return cutComments;
   } else {
     return cutComments;

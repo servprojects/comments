@@ -5,6 +5,8 @@ import CommentListItem from "components/CommentListItem";
 import { useGetCommentsQuery } from "store/services/commentApi";
 import { blueGrey } from "@material-ui/core/colors";
 import LoadingComponent from "components/LoadingComponent";
+import { useSelector } from "react-redux";
+import { getLatestComment, getViewTopCommentors } from "store/slices/comment";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
 function CommentList() {
   const classes = useStyles();
   const { data, isError, isLoading, error } = useGetCommentsQuery();
+  const newComment = useSelector(getLatestComment);
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
@@ -34,6 +37,16 @@ function CommentList() {
       setComments(data.data);
     }
   }, [data]);
+
+  useEffect(() => {
+    if (newComment && newComment.id) {
+      var latestComments = [...comments];
+      latestComments.push(newComment);
+      latestComments.sort((a, b) => b.id - a.id);
+
+      setComments(latestComments);
+    }
+  }, [newComment]);
 
   return (
     <>
